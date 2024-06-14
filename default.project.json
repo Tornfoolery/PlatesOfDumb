@@ -1,5 +1,5 @@
 {
-  "name": "roblox-ts-game",
+  "name": "Plates-Of-Dumb",
   "globIgnorePaths": ["**/package.json", "**/tsconfig.json"],
   "tree": {
     "$className": "DataModel",
