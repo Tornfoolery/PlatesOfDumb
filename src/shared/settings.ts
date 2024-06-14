@@ -1,3 +1,3 @@
 export const Settings = {
-    MinimumPlayers: 1,
-}
+  MinimumPlayers: 1,
+};
