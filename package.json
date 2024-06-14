@@ -17,7 +17,13 @@
     "@typescript-eslint/parser": "^7.13.0",
     "eslint": "^8.57.0",
     "eslint-plugin-roblox-ts": "^0.0.36",
+    "rbxts-transformer-flamework": "^1.2.3",
     "roblox-ts": "^2.3.0",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@flamework/components": "^1.2.3",
+    "@flamework/core": "^1.2.3",
+    "@flamework/networking": "^1.2.3"
   }
 }

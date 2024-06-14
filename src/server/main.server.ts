@@ -1,12 +1,18 @@
 import { Settings } from "shared/settings";
-import * as Status from 'shared/status';
+import * as Status from "shared/status";
 
-const Players = game.GetService("Players")
+import { Players } from "@rbxts/services";
+
+const GetNumPlayers = () => Players.GetPlayers().size();
 
 Players.PlayerAdded.Connect((Player) => {
-    Status.UpdatePlayersInGame(Status.GetPlayersInGame() + 1);
+    Status.UpdatePlayersInGame(GetNumPlayers());
+
+    if (GetNumPlayers() >= Settings.MinimumPlayers) {
+        print("test")
+    }
 });
 
 Players.PlayerRemoving.Connect((Player) => {
-    Status.UpdatePlayersInGame(Status.GetPlayersInGame() - 1);
+  Status.UpdatePlayersInGame(GetNumPlayers());
 });
