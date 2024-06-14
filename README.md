@@ -6,10 +6,7 @@
 ---
  # If you happen to pull from this branch directly from github run these commands on your terminal:
 
- npm install roblox-ts<p>
- npm i @rbxts/goodsignal<p>
- New-Item -Name "out" -Type Directory<p>
+ npm install
  npm run watch<p>
-
 
  # then you're good to go!<p>
