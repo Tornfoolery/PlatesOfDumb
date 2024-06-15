@@ -5,7 +5,7 @@ import * as Events from "server/Modules/events";
 import { Utils } from "server/Utils/getUtils";
 
 const getNumPlayers = () => Players.GetChildren().size();
-const enoughPlayers = () => getNumPlayers() >= 2;
+const enoughPlayers = () => getNumPlayers() >= Settings.MinimumPlayers;
 const updateRoundState = (state: string) => { /*SharedRoundConfig.SetAttribute("State", state);*/ };
 
 const enoughPlayersPromise = (): Promise<unknown> => 
