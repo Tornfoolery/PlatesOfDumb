@@ -1,14 +1,11 @@
-
 export class NewTimer {
 
     public promise: Promise<unknown>;
     public cancel;
     public cancelled: boolean;
 
-
     private duration: number
     private callback: Callback
-
 
     private startCountDown() {
         return new Promise((Resolve, Reject) => {

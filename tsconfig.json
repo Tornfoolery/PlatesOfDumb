@@ -28,4 +28,4 @@
 	"plugins": [
 		{ "transform": "rbxts-transformer-flamework" }
 	]
-} 
+}
