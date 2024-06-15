@@ -1,7 +1,6 @@
 import { Settings } from "shared/settings";
 import * as Status from "shared/status";
 import { Players } from "@rbxts/services";
-import * as Events from "server/Modules/events";
 import { Utils } from "server/Utils/getUtils";
 
 const getNumPlayers = () => Players.GetChildren().size();
