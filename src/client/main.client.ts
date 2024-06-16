@@ -17,6 +17,5 @@ RunService.RenderStepped.Connect(() => {
   const Message = roundInformation?.get("Message") as string;
 
   const FormattedMessage = Message.format(tostring(TimerValue));
-
   TextLabel.Text = FormattedMessage;
 });

@@ -1,15 +1,14 @@
 import { Settings } from "shared/settings";
-import * as Status from "shared/status";
+import * as State from "shared/state";
 
 import { Players } from "@rbxts/services";
 
 const GetNumPlayers = () => Players.GetPlayers().size();
 
 Players.PlayerAdded.Connect((Player) => {
-  Status.UpdatePlayersInGame(GetNumPlayers());
+  State.UpdatePlayersInGame(GetNumPlayers());
 });
 
 Players.PlayerRemoving.Connect((Player) => {
-  Status.UpdatePlayersInGame(GetNumPlayers());
+  State.UpdatePlayersInGame(GetNumPlayers());
 });
-
