@@ -41,6 +41,10 @@ export class Config {
     }
   }
 
+  public getUpdated(SpecificValue: string) {
+    return this.Instance.GetAttributeChangedSignal(SpecificValue);
+  }
+
   public set(Name: string, Value: AttributeValue) {
     this.Instance.SetAttribute(Name, Value);
   }
