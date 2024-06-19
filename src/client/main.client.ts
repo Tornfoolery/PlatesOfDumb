@@ -11,11 +11,19 @@ const TextLabel = Header.FindFirstChild("TextLabel") as TextLabel;
 // Global Values
 import * as GlobalValues from "shared/GlobalValuesHandler";
 
-RunService.RenderStepped.Connect(() => {
-  const roundInformation = GlobalValues.getConfig("RoundInfo");
+const roundInformation = GlobalValues.getConfig("RoundInfo");
+roundInformation?.getUpdated("Timer").Connect(() => {
   const TimerValue = roundInformation?.get("Timer") as Number;
   const Message = roundInformation?.get("Message") as string;
 
   const FormattedMessage = Message.format(tostring(TimerValue));
   TextLabel.Text = FormattedMessage;
-});
+})
+
+roundInformation?.getUpdated("Message").Connect(() => {
+  const TimerValue = roundInformation?.get("Timer") as Number;
+  const Message = roundInformation?.get("Message") as string;
+
+  const FormattedMessage = TimerValue && TimerValue !== 0 ? Message.format(tostring(TimerValue)) : Message;
+  TextLabel.Text = FormattedMessage;
+})

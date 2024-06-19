@@ -14,14 +14,17 @@ const GetNumPlayers = () => State.GetPlayersInGame();
 const EnoughPlayers = () => GetNumPlayers() >= Settings.MinimumPlayers;
 
 const NotEnoughPlayersPromise = (): Promise<unknown> =>
-  EnoughPlayers()
+  !EnoughPlayers()
     ? Promise.resolve(true)
     : Promise.fromEvent(PlayersUpdate, () => !EnoughPlayers());
 
 // Main Handler
-function StartGame() {}
+function StartGame() {
+  State.UpdateStatus("Game Start");
+}
 
 function StartIntermission() {
+  State.UpdateStatus("Intermission");
   GlobalValues.getConfig("RoundInfo")?.set("Message", "Intermission: %s");
 
   const Timer = new Utils.Timer.NewTimer(
@@ -31,22 +34,26 @@ function StartIntermission() {
     }
   );
 
-  Promise.race([NotEnoughPlayersPromise(), Timer.promise]).then((Message) => {
-    if (Message === "Finished") {
-      StartGame();
-    } else {
+  Promise.race([NotEnoughPlayersPromise(), Timer.promise])
+    .then(() => StartGame())
+    .finally(() => {
       Timer.cancel();
-    }
-  });
+      State.UpdateStatus("Waiting For Players");
+    });
 }
 
-PlayersUpdate.Connect((NumPlayers) => {
-  GlobalValues.getConfig("RoundInfo")?.set(
-    "Message",
-    `Waiting for players: ${NumPlayers}/${Settings.MinimumPlayers}`
-  );
+// Waiting For Players
+State.UpdateStatus("Waiting For Players");
 
-  if (NumPlayers >= Settings.MinimumPlayers) {
-    StartIntermission();
+PlayersUpdate.Connect((NumPlayers) => {
+  if (State.GetStatus() === "Waiting For Players") {
+    GlobalValues.getConfig("RoundInfo")?.set(
+      "Message",
+      `Waiting for players: ${NumPlayers}/${Settings.MinimumPlayers}`
+    );
+
+    if (NumPlayers >= Settings.MinimumPlayers) {
+      StartIntermission();
+    }
   }
 });
