@@ -1,4 +1,4 @@
 export const Settings = {
-  MinimumPlayers: 1,
+  MinimumPlayers: 2,
   IntermissionDuration: 25,
 };

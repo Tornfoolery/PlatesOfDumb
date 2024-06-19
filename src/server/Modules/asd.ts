@@ -5,7 +5,7 @@ import { Utils } from "server/Utils/getUtils";
 
 import * as GlobalValues from "shared/GlobalValuesHandler";
 
-const IntermissionDuration = Settings.IntermissionDuration
+const IntermissionDuration = Settings.IntermissionDuration;
 
 const getNumPlayers = () => Players.GetChildren().size();
 const enoughPlayers = () => getNumPlayers() >= Settings.MinimumPlayers;

@@ -1,4 +1,4 @@
-import { startGameLoop } from "server/Modules/roundHandler";
+//import { startGameLoop } from "server/Modules/roundHandler";
 
 import * as GlobalValues from "shared/GlobalValuesHandler"
 
@@ -9,4 +9,4 @@ roundInformation.set('Timer', '')
 roundInformation.set('Message', 'Waiting For Players')
 
 // Main
-startGameLoop();
+//startGameLoop();
