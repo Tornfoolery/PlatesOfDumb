@@ -1,4 +1,3 @@
-import * as State from "shared/state";
 import { Settings } from "shared/settings";
 import { Utils } from "server/Utils/getUtils";
 
@@ -7,10 +6,14 @@ import { SignalEvents } from "server/Modules/events";
 
 import * as GlobalValues from "shared/GlobalValuesHandler";
 
+import * as NormalGameMode from "server/Gamemodes/normal";
+
 const PlayersUpdate = SignalEvents.PlayersUpdate;
 
+const RoundInformation = new GlobalValues.Config('RoundInfo')
+
 // Functions
-const GetNumPlayers = () => State.GetPlayersInGame();
+const GetNumPlayers = () => RoundInformation.get("PlayersInGame") as number;
 const EnoughPlayers = () => GetNumPlayers() >= Settings.MinimumPlayers;
 
 const NotEnoughPlayersPromise = (): Promise<unknown> =>
@@ -20,11 +23,12 @@ const NotEnoughPlayersPromise = (): Promise<unknown> =>
 
 // Main Handler
 function StartGame() {
-  State.UpdateStatus("Game Start");
+  RoundInformation.set("State", "Game Start");
+  NormalGameMode.GeneratePlates(new Vector3(0, 5, 0));
 }
 
 function StartIntermission() {
-  State.UpdateStatus("Intermission");
+  RoundInformation.set("State", "Intermission");
   GlobalValues.getConfig("RoundInfo")?.set("Message", "Intermission: %s");
 
   const Timer = new Utils.Timer.NewTimer(
@@ -38,15 +42,15 @@ function StartIntermission() {
     .then(() => StartGame())
     .finally(() => {
       Timer.cancel();
-      State.UpdateStatus("Waiting For Players");
+      RoundInformation.set("State", "Waiting For Players");
     });
 }
 
 // Waiting For Players
-State.UpdateStatus("Waiting For Players");
-
 PlayersUpdate.Connect((NumPlayers) => {
-  if (State.GetStatus() === "Waiting For Players") {
+  print(NumPlayers)
+  print(RoundInformation.get("State"))
+  if (RoundInformation.get("State") === "Waiting For Players") {
     GlobalValues.getConfig("RoundInfo")?.set(
       "Message",
       `Waiting for players: ${NumPlayers}/${Settings.MinimumPlayers}`

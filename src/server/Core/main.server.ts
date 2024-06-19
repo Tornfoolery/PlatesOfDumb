@@ -1,14 +1,17 @@
-import * as State from "shared/state";
-
 import { Players } from "@rbxts/services";
 import { SignalEvents } from "server/Modules/events";
 
+import * as GlobalValues from "shared/GlobalValuesHandler";
+
+const RoundInformation = new GlobalValues.Config("RoundInfo");
+
 const GetNumPlayers = () => Players.GetPlayers().size();
-const PlayersUpdate = SignalEvents.PlayersUpdate
+const PlayersUpdate = SignalEvents.PlayersUpdate;
 
 function UpdatePlayers() {
+  print("yeah");
   const NumPlayers: number = GetNumPlayers();
-  State.UpdatePlayersInGame(NumPlayers);
+  RoundInformation.set("PlayersInGame", NumPlayers);
   PlayersUpdate.Fire(NumPlayers);
 }
 
