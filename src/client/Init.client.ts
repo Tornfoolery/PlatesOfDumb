@@ -1,11 +1,11 @@
-import { Players } from "@rbxts/services";
+import { Players, RunService } from "@rbxts/services";
 
 // UI
 
 // Instance References
-const LocalPlayer = Players.LocalPlayer;
-const PlayerUI = LocalPlayer.WaitForChild('PlayerGui')
-const PlayerScripts = LocalPlayer.WaitForChild('PlayerScripts')
+const Player = Players.LocalPlayer;
+const PlayerUI = Player.WaitForChild('PlayerGui')
+const PlayerScripts = Player.WaitForChild('PlayerScripts')
 
 // Folders
 const StarterGuiFolder = PlayerScripts.FindFirstChild('StarterGui', true) as Instance;

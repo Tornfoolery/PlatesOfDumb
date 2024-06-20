@@ -1,30 +1,38 @@
 import { Settings } from "shared/settings";
 import { Utils } from "server/Utils/getUtils";
 
-import { Players } from "@rbxts/services";
+import { Players, Workspace } from "@rbxts/services";
 import { SignalEvents } from "server/Modules/events";
 
 import * as GlobalValues from "shared/GlobalValuesHandler";
 
 import * as NormalGameMode from "server/Gamemodes/normal";
 
-const PlayersUpdate = SignalEvents.PlayersUpdate;
-
 const RoundInformation = new GlobalValues.Config('RoundInfo')
 
 // Functions
-const GetNumPlayers = () => RoundInformation.get("PlayersInGame") as number;
+const GetNumPlayers = () => Players.GetPlayers().size() as number;
 const EnoughPlayers = () => GetNumPlayers() >= Settings.MinimumPlayers;
 
 const NotEnoughPlayersPromise = (): Promise<unknown> =>
   !EnoughPlayers()
     ? Promise.resolve(true)
-    : Promise.fromEvent(PlayersUpdate, () => !EnoughPlayers());
+    : Promise.fromEvent(Players.PlayerRemoving, () => !EnoughPlayers());
 
 // Main Handler
+const PlatesFolder = new Instance("Folder");
+PlatesFolder.Name = "Plates";
+PlatesFolder.Parent = Workspace;
+
 function StartGame() {
   RoundInformation.set("State", "Game Start");
-  NormalGameMode.GeneratePlates(new Vector3(0, 5, 0));
+  NormalGameMode.GeneratePlates(PlatesFolder);
+
+  const PlayersInGame = Players.GetPlayers();
+  for (const Player of PlayersInGame) {
+    Player.SetAttribute("InGame", true)
+  }
+  NormalGameMode.AssignPlayers(PlayersInGame);
 }
 
 function StartIntermission() {
@@ -47,9 +55,8 @@ function StartIntermission() {
 }
 
 // Waiting For Players
-PlayersUpdate.Connect((NumPlayers) => {
-  print(NumPlayers)
-  print(RoundInformation.get("State"))
+Players.PlayerAdded.Connect(() => {
+  const NumPlayers = GetNumPlayers();
   if (RoundInformation.get("State") === "Waiting For Players") {
     GlobalValues.getConfig("RoundInfo")?.set(
       "Message",

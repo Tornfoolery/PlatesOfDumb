@@ -1,19 +1,12 @@
-import { Players } from "@rbxts/services";
-import { SignalEvents } from "server/Modules/events";
+//import { startGameLoop } from "server/Modules/roundHandler";
 
-import * as GlobalValues from "shared/GlobalValuesHandler";
+import * as GlobalValues from "shared/GlobalValuesHandler"
 
-const RoundInformation = new GlobalValues.Config("RoundInfo");
+// Globals
+const RoundInformation = new GlobalValues.Config('RoundInfo')
+RoundInformation.set('State', 'Waiting For Players')
+RoundInformation.set('Timer', '')
+RoundInformation.set('Message', 'Waiting For Players')
 
-const GetNumPlayers = () => Players.GetPlayers().size();
-const PlayersUpdate = SignalEvents.PlayersUpdate;
-
-function UpdatePlayers() {
-  print("yeah");
-  const NumPlayers: number = GetNumPlayers();
-  RoundInformation.set("PlayersInGame", NumPlayers);
-  PlayersUpdate.Fire(NumPlayers);
-}
-
-Players.PlayerAdded.Connect(UpdatePlayers);
-Players.PlayerRemoving.Connect(UpdatePlayers);
+// Main
+//startGameLoop();
