@@ -21,6 +21,7 @@ export function GeneratePlates(PlatesFolder: Folder) {
 
       const ID = `X${x}Z${z}`;
       Model.SetAttribute("ID", ID);
+      Model.SetAttribute("Player", false);
 
       Plates[ID] = { ID: ID, Model: Model, Part: Plate };
       PlateIDs.push(ID);
@@ -32,8 +33,12 @@ export function AssignPlayers(PlayersInGame: Player[]) {
   for (const Player of PlayersInGame) {
     const Character = Player.Character
     if (Character) {
-      const RandomID = PlateIDs[math.random(0, PlateIDs.size() - 1)];
-      const Plate = Plates[RandomID];
+      let Plate: { ID: string; Model: Model, Part: BasePart };
+      do {
+        const RandomID = PlateIDs[math.random(0, PlateIDs.size() - 1)];
+        Plate = Plates[RandomID];
+      } while (Plate.Model.GetAttribute("Player") !== false);
+
       Plate.Model.SetAttribute("Player", Player.Name);
 
       const HumRP = Character.FindFirstChild("HumanoidRootPart") as BasePart;

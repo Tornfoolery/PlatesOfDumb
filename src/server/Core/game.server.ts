@@ -2,6 +2,9 @@ import { Players, Workspace } from "@rbxts/services";
 import { SignalEvents } from "server/Modules/events";
 
 import * as Gamemode from "server/Gamemodes/normal";
+import * as GlobalValues from "shared/GlobalValuesHandler";
+
+const RoundInformation = new GlobalValues.Config('RoundInfo')
 
 const PlatesFolder = new Instance("Folder");
 PlatesFolder.Name = "Plates";
@@ -56,6 +59,8 @@ function HandlePlayers() {
 }
 
 SignalEvents.GameStart.Connect(() => {
+    RoundInformation.set("Message", "Game Started");
+
     PlatesFolder.ClearAllChildren();
 
     Gamemode.GeneratePlates(PlatesFolder);
