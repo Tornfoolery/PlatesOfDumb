@@ -6,8 +6,6 @@ import { SignalEvents } from "server/Modules/events";
 
 import * as GlobalValues from "shared/GlobalValuesHandler";
 
-import * as NormalGameMode from "server/Gamemodes/normal";
-
 const RoundInformation = new GlobalValues.Config('RoundInfo')
 
 // Functions
@@ -20,19 +18,10 @@ const NotEnoughPlayersPromise = (): Promise<unknown> =>
     : Promise.fromEvent(Players.PlayerRemoving, () => !EnoughPlayers());
 
 // Main Handler
-const PlatesFolder = new Instance("Folder");
-PlatesFolder.Name = "Plates";
-PlatesFolder.Parent = Workspace;
-
 function StartGame() {
   RoundInformation.set("State", "Game Start");
-  NormalGameMode.GeneratePlates(PlatesFolder);
 
-  const PlayersInGame = Players.GetPlayers();
-  for (const Player of PlayersInGame) {
-    Player.SetAttribute("InGame", true)
-  }
-  NormalGameMode.AssignPlayers(PlayersInGame);
+  SignalEvents.GameStart.Fire();
 }
 
 function StartIntermission() {
@@ -54,8 +43,13 @@ function StartIntermission() {
     });
 }
 
+/// Game End
+SignalEvents.GameEnd.Connect(() => {
+  WaitForPlayers();
+})
+
 // Waiting For Players
-Players.PlayerAdded.Connect(() => {
+function WaitForPlayers() {
   const NumPlayers = GetNumPlayers();
   if (RoundInformation.get("State") === "Waiting For Players") {
     GlobalValues.getConfig("RoundInfo")?.set(
@@ -67,4 +61,6 @@ Players.PlayerAdded.Connect(() => {
       StartIntermission();
     }
   }
-});
+}
+
+Players.PlayerAdded.Connect(WaitForPlayers);

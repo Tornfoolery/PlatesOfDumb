@@ -31,7 +31,6 @@ RoundInformation?.getUpdated("Message").Connect(() => {
   TextLabel.Text = FormattedMessage;
 })
 
-
 // Player Hover
 const Assets = ReplicatedStorage.WaitForChild("TS").WaitForChild("Assets");
 const PlateHoverBillboardUI = Assets.FindFirstChild("PlateHoverBillboardUI") as BillboardGui;
