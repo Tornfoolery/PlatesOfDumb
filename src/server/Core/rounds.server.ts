@@ -7,6 +7,9 @@ import { SignalEvents } from "server/Modules/events";
 import * as GlobalValues from "shared/GlobalValuesHandler";
 
 const RoundInformation = new GlobalValues.Config('RoundInfo')
+RoundInformation.set('State', 'Waiting For Players')
+RoundInformation.set('Timer', '')
+RoundInformation.set('Message', 'Waiting For Players')
 
 // Functions
 const GetNumPlayers = () => Players.GetPlayers().size() as number;

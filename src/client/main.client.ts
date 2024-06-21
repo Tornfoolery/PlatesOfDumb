@@ -5,6 +5,7 @@ const Player = Players.LocalPlayer;
 const PlayerUI = Player.WaitForChild("PlayerGui");
 
 const Mouse = Player.GetMouse();
+Mouse.TargetFilter = Workspace.FindFirstChild("Map") as Folder;
 
 // UIS
 const MainUI = PlayerUI.WaitForChild("MainUI") as ScreenGui;

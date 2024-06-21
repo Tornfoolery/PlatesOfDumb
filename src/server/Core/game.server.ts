@@ -8,13 +8,30 @@ PlatesFolder.Name = "Plates";
 PlatesFolder.Parent = Workspace;
 
 const PlayersInGame: Player[] = [];
+const DeathOrder: string[] = [];
+
+function GameEnd() {
+    const Rankings: string[] = [];
+
+    if (PlayersInGame.size() > 0) {
+        Rankings.push(PlayersInGame[0].Name);
+    }
+
+    for (let i = DeathOrder.size(); i >= 0; i--) {
+        Rankings.push(DeathOrder[i]);
+    }
+
+    SignalEvents.GameEnd.Fire();
+}
 
 function PlayerDied( Player: Player ) {
     PlayersInGame.remove(PlayersInGame.indexOf(Player));
     Player.SetAttribute("InGame", false)
 
-    if (PlayersInGame.size() === 0) {
-        SignalEvents.GameEnd.Fire();
+    DeathOrder.push(Player.Name);
+
+    if (PlayersInGame.size() <= 1) {
+        GameEnd();
     }
 }
 
