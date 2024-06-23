@@ -1,5 +1,5 @@
 import { Players, Workspace } from "@rbxts/services";
-import { SignalEvents } from "server/Modules/events";
+import * as Signals from "server/Modules/signals";
 
 import * as Gamemode from "server/Gamemodes/normal";
 import * as GlobalValues from "shared/GlobalValuesHandler";
@@ -24,7 +24,7 @@ function GameEnd() {
         Rankings.push(DeathOrder[i]);
     }
 
-    SignalEvents.GameEnd.Fire();
+    Signals.GameEnd.Fire();
 }
 
 function PlayerDied( Player: Player ) {
@@ -58,7 +58,7 @@ function HandlePlayers() {
     }
 }
 
-SignalEvents.GameStart.Connect(() => {
+Signals.GameStart.Connect(() => {
     RoundInformation.set("Message", "Game Started");
 
     PlatesFolder.ClearAllChildren();

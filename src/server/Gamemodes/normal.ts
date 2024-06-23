@@ -1,5 +1,6 @@
 import { ReplicatedStorage, Workspace } from "@rbxts/services";
 import { Settings } from "shared/settings";
+import * as EventsHandler from "server/Modules/events";
 
 const Assets = ReplicatedStorage.WaitForChild("TS").WaitForChild("Assets");
 const Plate_Template = Assets.FindFirstChild("DefaultPlate") as Model;
@@ -20,6 +21,7 @@ export function GeneratePlates(PlatesFolder: Folder) {
       Model.Parent = PlatesFolder;
 
       const ID = `X${x}Z${z}`;
+      Model.Name = ID;
       Model.SetAttribute("ID", ID);
       Model.SetAttribute("Player", false);
 
@@ -47,4 +49,6 @@ export function AssignPlayers(PlayersInGame: Player[]) {
       HumRP.CFrame = PlateCFrame.mul(SpawnOffset);
     }
   }
+
+  EventsHandler.AffectRandomPlate(Plates, PlateIDs, 10);
 }

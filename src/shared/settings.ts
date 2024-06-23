@@ -2,9 +2,9 @@ export const Settings = {
   MinimumPlayers: 1,
   IntermissionDuration: 5,
 
-  StartPosition: new Vector3(-180, 0.5, 30),
-  MaxXPlates: 6,
-  MaxZPlates: 6,
+  StartPosition: new Vector3(-184, 0.5, 2.75),
+  MaxXPlates: 7,
+  MaxZPlates: 7,
   PlateOffset: 30,
 
   SpawnOffset: new CFrame(0, 5, 0),

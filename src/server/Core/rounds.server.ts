@@ -2,7 +2,7 @@ import { Settings } from "shared/settings";
 import { Utils } from "server/Utils/getUtils";
 
 import { Players, Workspace } from "@rbxts/services";
-import { SignalEvents } from "server/Modules/events";
+import * as Signals from "server/Modules/signals";
 
 import * as GlobalValues from "shared/GlobalValuesHandler";
 
@@ -24,7 +24,7 @@ const NotEnoughPlayersPromise = (): Promise<unknown> =>
 function StartGame() {
   RoundInformation.set("State", "Game Start");
 
-  SignalEvents.GameStart.Fire();
+  Signals.GameStart.Fire();
 }
 
 function StartIntermission() {
@@ -47,7 +47,7 @@ function StartIntermission() {
 }
 
 /// Game End
-SignalEvents.GameEnd.Connect(() => {
+Signals.GameEnd.Connect(() => {
   WaitForPlayers();
 })
 
